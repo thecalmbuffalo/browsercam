@@ -1,17 +1,27 @@
 <!DOCTYPE html>
-
 <html>
 <body>
-    
-    //Grab elements, create settings, etc.
-    var video = document.getElementById('video');
 
-    //access camera
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-            video.srcObject = stream;
-            video.play();
-        });
+//testing browser support for 'getUserMedia 
+if('mediaDevices" in navigator && 'getUserMedia' in navigator.mediaDevices){
+    console.log("Let's get this party started")
+}
+
+//user permission request for camera access
+if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+    const stream = await navigator.mediaDevices.getUserMedia({video: true})
+}
+
+//constraints defined
+{
+  video: {
+    width: 1280,
+    height: 720,
+  },
+    facingMode: {
+      exact: 'environment'
     }
-</body>
+}
+
+    </body>
 </html>

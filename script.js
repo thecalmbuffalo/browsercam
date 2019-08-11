@@ -16,12 +16,12 @@ let streamStarted = true;
 const [play, pause, screenshot] = buttons;
 
 const constraints = {
+  {
   video: {
-    width: {
-      min: 600,
-      ideal: 1920,
-      max: 2560,
-    },
+    width: 1280,
+    height: 720,
+  }
+},
     height: {
       min: 400,
       ideal: 1080,

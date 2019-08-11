@@ -1,3 +1,8 @@
+
+if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+  const stream = await navigator.mediaDevices.getUserMedia({video: true})
+}
+
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
@@ -92,8 +97,4 @@ const getCameraSelection = sync () => {
 getCameraSelection();
 } else {
   alert('getUserMedia() is not supported by your browser');
-}
-
-if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
-  const stream = await navigator.mediaDevices.getUserMedia({video: true})
 }

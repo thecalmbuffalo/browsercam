@@ -38,9 +38,6 @@ cameraOptions.onchange = () => {
     }
   };
 
-if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
-  const stream = await navigator.mediaDevices.getUserMedia({video: true})
-}
   startStream(updatedConstraints);
 };
 
@@ -95,4 +92,8 @@ const getCameraSelection = sync () => {
 getCameraSelection();
 } else {
   alert('getUserMedia() is not supported by your browser');
+}
+
+if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+  const stream = await navigator.mediaDevices.getUserMedia({video: true})
 }

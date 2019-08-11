@@ -1,3 +1,8 @@
+function hasGetUserMedia() {
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+
+if (hasGetUserMedia()) {
 feather.replace();
 
 const controls = document.querySelector('.controls');
@@ -85,3 +90,6 @@ const getCameraSelection = sync () => {
 };
 
 getCameraSelection();
+} else {
+  alert('getUserMedia() is not supported by your browser');
+}

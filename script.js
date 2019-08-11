@@ -6,7 +6,7 @@ const video = document.querySelector('video');
 const canvas = document.querySelector('canvas');
 const screenshotImage = document.querySelector('img');
 const buttons = [...controls.querySelectorAll('button')];
-let streamStarted = false;
+let streamStarted = true;
 
 const [play, pause, screenshot] = buttons;
 
@@ -75,7 +75,7 @@ const handleStream = (stream) => {
 
 };
 
-const getCameraSelection = async () => {
+const getCameraSelection = sync () => {
   const devices = await navigator.mediaDevices.enumerateDevices();
   const videoDevices = devices.filter(device => device.kind === 'videoinput');
   const options = videoDevices.map(videoDevice => {

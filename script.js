@@ -8,20 +8,59 @@ const screenshotImage = document.querySelector('img');
 const buttons = [...controls.querySelectorAll('button')];
 let streamStarted = false;
 
+const [play, pause, screenshot] = buttons;
+
 const constraints = {
   video: {
     width: {
-      min: 1280,
+      min: 600,
       ideal: 1920,
       max: 2560,
     },
     height: {
-      min: 720,
+      min: 400,
       ideal: 1080,
       max: 1440,
     },
   }
 };
+
+cameraOptions.onchange = () => {
+  const updatedConstraints = {
+    ...constraints,
+    deviceId: {
+      exact: cameraOptions.value
+    }
+  };
+
+  startStream(updatedConstraints);
+};
+
+play.onclick = () => {
+  if (streamStarted) {
+    video.play();
+    play.classList.add('d-none');
+    return;
+  }
+  if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
+    const updatedConstraints = {
+      ...constraints,
+      deviceId: {
+        exact: cameraOptions.value
+      }
+    };
+    startStream(updatedConstraints);
+  }
+};
+
+const pauseStream = () => {
+  video.pause();
+  play.classList.remove('d-none');
+  pause.classList.add('d-none');
+};
+
+pause.onclick = pauseStream;
+screenshot.onclick = doScreenshot;
 
 const startStream = async (constraints) => {
   const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -32,44 +71,17 @@ const handleStream = (stream) => {
   video.srcObject = stream;
   play.classList.add('d-none');
   pause.classList.remove('d-none');
-  streamStarted = true;
+  screenshot.classList.remove('d-none');
+
+};
+
+const getCameraSelection = async () => {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const videoDevices = devices.filter(device => device.kind === 'videoinput');
+  const options = videoDevices.map(videoDevice => {
+    return '<option value="${videoDevice.deviceId}">${videoDevice.label}</option>';
+  });
+  cameraOptions.innerHTML = options.join('');
 };
 
 getCameraSelection();
-
-...
-
-const startStream = async (constraints) =. {
-  ...
-};
-
-const handleStream = (stream) => {
-  ...
-};
-
-cameraOptions.onchange = () => {
-  const updatedConstraints = {
-    ...constraints,
-    deviceId: {
-      exact: cameraOptions.value
-    }
-  };
-  startStream(updatedConstraints);
-};
-
-const pauseStream = () => {
-  video.pause();
-  play.classList.remove('d-none');
-  pause.classList.add('d-none');
-};
-
-const doScreenshot = () => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
-  screenshotImage.src = canvas.toDataURL('image/webp');
-  screenshotImage.classList.remove('d-none');
-};
-
-pause.onclick = pauseStream;
-screenshot.onclick = doScreenshot;

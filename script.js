@@ -29,12 +29,12 @@ const [play, pause, screenshot] = buttons;
 const constraints = {
   video: {
     width: {
-      min: 100,
-      max: 2000,
+      min: 640 ,
+      max: 1080,
     },
     height: {
-      min: 100,
-      max: 2000,
+      min: 480,
+      max: 768,
     },
   }
 };
